@@ -1,0 +1,26 @@
+{
+  "name": "@cider-ci/npm-install-with-caching",
+  "version": "1.0.0",
+  "description": "npm install with caching on @cider-ci",
+  "main": "npm-install_with_caching.sh",
+  "bin": {
+    "npm-install-with-caching": "npm-install_with_caching.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eins78/cider-ci_npm-install-with-caching.git"
+  },
+  "keywords": [
+    "ci",
+    "cider-ci"
+  ],
+  "authors": [
+    "Max F. Albrecht <1@178.is>",
+    "Thomas Schank <DrTom@schank.ch>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eins78/cider-ci_npm-install-with-caching/issues"
+  },
+  "homepage": "https://github.com/eins78/cider-ci_npm-install-with-caching#readme"
+}

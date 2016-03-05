@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -eux
-NPM_VERSIONS_DIGEST=`git hash-object 'package.json'`
-NPM_CACHE_DIR="/tmp/JSON-ROA-BROWSER_NPM-CACHE_${NPM_VERSIONS_DIGEST}/node_modules"
+
+NPM_VERSIONS_DIGEST=$CIDER_CI_TREE_ID
+NPM_PACKAGE_NAME=`node -p 'require("./package.json").name'`
+NPM_CACHE_DIR="/tmp/${NPM_PACKAGE_NAME}_NPM_${CIDER_CI_TREE_ID}/node_modules"
 
 if [ -d "$NPM_CACHE_DIR" ]; then
   echo "NPM module cache exists, just linking..."
