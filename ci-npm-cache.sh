@@ -42,8 +42,8 @@ if [ ${CI_NVM_CACHE_KEY-} ]; then
   NPM_CACHE_DIR="/tmp/ci-npm-cache/${CI_NVM_CACHE_KEY}/${NPM_VERSIONS_DIGEST}"
 else
   NPM_PACKAGE_NAME=`node -p 'require("./package.json").name'`
-  NODE_VERSION=`node -v`
-  NPM_VERSION=`$NPM_TOOL -v`
+  NODE_VERSION=`node --version`
+  NPM_VERSION=`$NPM_TOOL --version`
   NPM_CACHE_DIR="/tmp/ci-npm-cache/${NPM_PACKAGE_NAME}/node_${NODE_VERSION}/${NPM_TOOL}_v${NPM_VERSION}/${NPM_VERSIONS_DIGEST}"
 fi
 
@@ -51,6 +51,13 @@ rm -rf "node_modules"
 
 if [ -d "$NPM_CACHE_DIR/node_modules" ]; then
   echo -e "\033[33mUsing npm cache by $NPM_LOCK_FILE at $NPM_CACHE_DIR\033[0m"
+
+  for f in `ls -A "$NPM_CACHE_DIR"`
+  do
+    if [ -L "$NPM_CACHE_DIR/$f" ]; then
+      rm -rf "$NPM_CACHE_DIR/$f"
+    fi
+  done
 else
   rm -rf "$NPM_CACHE_DIR.tmp"
   mkdir -p "$NPM_CACHE_DIR.tmp/node_modules"
@@ -73,6 +80,11 @@ else
     exit $ret
   fi
 fi
+
+for f in `ls *.config.* .*rc .*rc.* package.json`
+do
+  ln -s "$PWD"/"$f" "$NPM_CACHE_DIR/$f"
+done  
 
 ln -s "$NPM_CACHE_DIR/node_modules" "node_modules"
 
