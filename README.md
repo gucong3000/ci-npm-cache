@@ -10,7 +10,6 @@ ci-npm-cache yarn install
 ## Install
 
 ```bash
-curl https://raw.githubusercontent.com/gucong3000/ci-npm-cache/master/ci-npm-cache.sh > ci-npm-cache.sh
-sudo mv -f ./ci-npm-cache.sh /usr/bin/ci-npm-cache
+curl https://raw.githubusercontent.com/gucong3000/ci-npm-cache/master/ci-npm-cache.sh | sudo tee /usr/bin/ci-npm-cache
 sudo chmod +x /usr/bin/ci-npm-cache
 ```
