@@ -2,7 +2,7 @@
 # set -eux
 
 if [ ! "${1-}" ]; then
-  echo -e "\033[31mRequired parameter missing.\033[0m"
+  echo -e "\033[31mRequired parameter missing.\033[0m" >&2
   exit 1
 fi
 
@@ -10,11 +10,11 @@ if [ -f "package.json" ]; then
   node -e 'require("./package.json")'
   ret=$?
   if [ $ret != 0 ]; then
-    echo -e "\033[31m`package.json` syntax error.\033[0m"
+    echo -e "\033[31m`package.json` syntax error.\033[0m" >&2
     exit $ret
   fi
 else
-  echo -e "\033[31m`package.json` missing.\033[0m"
+  echo -e "\033[31m`package.json` missing.\033[0m" >&2
   exit 1
 fi
 
