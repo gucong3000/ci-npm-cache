@@ -81,11 +81,15 @@ else
   fi
 fi
 
-for f in `ls *.config.* .*rc .*rc.* package.json sign/**/*.pem 2> /dev/null`
+for f in `ls *.config.* .*rc .*rc.* package.json 2> /dev/null`
 do
-  mkdir -p "$NPM_CACHE_DIR/`dirname $f`"
-  ln -s "$PWD"/"$f" "$NPM_CACHE_DIR/$f"
-done  
+  ln -s "$PWD/$f" "$NPM_CACHE_DIR/$f"
+done
+
+if [ -d "sign" ]; then
+  rm -rf "$NPM_CACHE_DIR/sign"
+  ln -s "$PWD/sign" "$NPM_CACHE_DIR/sign"
+fi
 
 ln -s "$NPM_CACHE_DIR/node_modules" "node_modules"
 
