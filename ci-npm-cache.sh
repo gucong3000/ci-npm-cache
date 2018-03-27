@@ -81,8 +81,9 @@ else
   fi
 fi
 
-for f in `ls *.config.* .*rc .*rc.* package.json`
+for f in `ls *.config.* .*rc .*rc.* package.json sign/**/*.pem 2> /dev/null`
 do
+  mkdir -p "$NPM_CACHE_DIR/`dirname $f`"
   ln -s "$PWD"/"$f" "$NPM_CACHE_DIR/$f"
 done  
 
