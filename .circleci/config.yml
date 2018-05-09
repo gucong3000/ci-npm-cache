@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: install-npm-wee
+          command: |
+            chmod +x ./ci-npm-cache.sh;
+            ./ci-npm-cache.sh npm install;
+      - run:
+          name: test
+          command: npm test
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - /tmp/ci-npm-cache
+

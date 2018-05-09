@@ -1,26 +1,37 @@
 {
-  "name": "@cider-ci/npm-install-with-caching",
+  "name": "ci-npm-cache",
   "version": "1.0.0",
-  "description": "npm install with caching on @cider-ci",
-  "main": "npm-install_with_caching.sh",
+  "description": "npm install with caching on CI",
+  "main": "ci-npm-cache.sh",
   "bin": {
-    "npm-install-with-caching": "npm-install_with_caching.sh"
+    "ci-npm-cache": "ci-npm-cache.sh"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/eins78/cider-ci_npm-install-with-caching.git"
+    "url": "git+https://github.com/gucong3000/ci-npm-cache.git"
   },
   "keywords": [
     "ci",
     "cider-ci"
   ],
-  "authors": [
-    "Max F. Albrecht <1@178.is>",
-    "Thomas Schank <DrTom@schank.ch>"
-  ],
+  "author": "gucong",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/eins78/cider-ci_npm-install-with-caching/issues"
+    "url": "https://github.com/gucong3000/ci-npm-cache/issues"
   },
-  "homepage": "https://github.com/eins78/cider-ci_npm-install-with-caching#readme"
+  "homepage": "https://github.com/gucong3000/ci-npm-cache#readme",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "exec-extra": "^2.4.0",
+    "mocha": "^5.1.1"
+  },
+  "scripts": {
+    "pretest": "eslint .",
+    "test": "mocha --timeout 800"
+  }
 }
