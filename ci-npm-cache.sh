@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 # set -eux
 
+if [ `id -u` -eq 0 ];then
+	echo "root用户!"
+else
+	echo "非root用户!"
+fi
+
 if [ ! "${1-}" ]; then
   echo -e "\033[31mRequired parameter missing.\033[0m" >&2
   exit 1
@@ -10,11 +16,11 @@ if [ -f "package.json" ]; then
   node -e 'require("./package.json")'
   ret=$?
   if [ $ret != 0 ]; then
-    echo -e "\033[31m`package.json` syntax error.\033[0m" >&2
+    echo -e "\033[31m\`package.json\` syntax error.\033[0m" >&2
     exit $ret
   fi
 else
-  echo -e "\033[31m`package.json` missing.\033[0m" >&2
+  echo -e "\033[31m\`package.json\` missing.\033[0m" >&2
   exit 1
 fi
 
@@ -48,28 +54,21 @@ else
 fi
 
 rm -rf "node_modules"
+mkdir "node_modules"
 
 if [ -d "$NPM_CACHE_DIR/node_modules" ]; then
   echo -e "\033[33mUsing npm cache by $NPM_LOCK_FILE at $NPM_CACHE_DIR\033[0m"
-
-  for f in `ls -A "$NPM_CACHE_DIR"`
-  do
-    if [ -L "$NPM_CACHE_DIR/$f" ]; then
-      rm -rf "$NPM_CACHE_DIR/$f"
-    fi
-  done
 else
   rm -rf "$NPM_CACHE_DIR.tmp"
   mkdir -p "$NPM_CACHE_DIR.tmp/node_modules"
-  ln -s "$NPM_CACHE_DIR.tmp/node_modules" "node_modules"
+  sudo mount --bind "$NPM_CACHE_DIR.tmp/node_modules" "node_modules"
 
   eval "$@"
   ret=$?
 
-  if [ $ret == 0 ]; then
+  if [ $ret -eq 0 ]; then
     if [ `ls "node_modules" | wc -l` != 0 ]; then
       echo -e "\033[33mCreated npm cache by $NPM_LOCK_FILE at $NPM_CACHE_DIR\033[0m"
-      rm -rf "node_modules"
       mv "$NPM_CACHE_DIR.tmp" "$NPM_CACHE_DIR"
     else
       rm -rf "$NPM_CACHE_DIR.tmp"
@@ -81,16 +80,6 @@ else
   fi
 fi
 
-for f in `ls *.config.* .*rc .*rc.* package.json 2> /dev/null`
-do
-  ln -s "$PWD/$f" "$NPM_CACHE_DIR/$f"
-done
-
-if [ -d "sign" ]; then
-  rm -rf "$NPM_CACHE_DIR/sign"
-  ln -s "$PWD/sign" "$NPM_CACHE_DIR/sign"
-fi
-
-ln -s "$NPM_CACHE_DIR/node_modules" "node_modules"
+sudo mount --bind "$NPM_CACHE_DIR/node_modules" "node_modules"
 
 exit 0
